@@ -49,6 +49,7 @@ public class DrawNewCFG extends JPanel {
    
      
    }
+   //draw arrow
    public static void drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h) {
 	    int dx = x2 - x1, dy = y2 - y1;
 	    double D = Math.sqrt(dx*dx + dy*dy);
