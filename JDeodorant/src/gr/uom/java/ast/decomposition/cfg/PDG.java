@@ -81,7 +81,7 @@ public class PDG extends Graph {
 		handleThrowExceptionNodes();
 		if(monitor != null)
 			monitor.done();
-		DrawNewPDG.createAndShowGui(cfg);
+		DrawNewPDG.createAndShowGui(this);
 	}
 
 	public PDGMethodEntryNode getEntryNode() {
@@ -362,6 +362,7 @@ public class PDG extends Graph {
 			if(innerMostLoopCFGNode instanceof CFGBranchLoopNode || innerMostLoopCFGNode instanceof CFGBranchDoLoopNode || innerMostLoopCFGNode instanceof CFGBranchSwitchNode) {
 				for(GraphEdge edge : innerMostLoopNode.outgoingEdges) {
 					PDGDependence dependence = (PDGDependence)edge;
+					
 					if(dependence instanceof PDGControlDependence) {
 						PDGControlDependence controlDependence = (PDGControlDependence)dependence;
 						PDGNode dstPDGNode = (PDGNode)controlDependence.dst;

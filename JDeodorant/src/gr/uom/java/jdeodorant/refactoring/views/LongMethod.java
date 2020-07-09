@@ -791,6 +791,7 @@ public class LongMethod extends ViewPart {
 
 	private void processMethod(final List<ASTSliceGroup> extractedSliceGroups, ClassObject classObject, AbstractMethodDeclaration methodObject) {
 		if(methodObject.getMethodBody() != null) {
+			
 			IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 			int minimumMethodSize = store.getInt(PreferenceConstants.P_MINIMUM_METHOD_SIZE);
 			StatementExtractor statementExtractor = new StatementExtractor();
