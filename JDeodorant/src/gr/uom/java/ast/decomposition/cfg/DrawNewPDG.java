@@ -16,6 +16,7 @@ import javax.swing.*;
 
 public class DrawNewPDG extends JPanel {
    private  static PDG pdg;
+   private  static CFG cfg;
    private static  int RECT_X = 400;
    private static  int RECT_Y = 20;
    private static final int RECT_WIDTH = 20;
@@ -29,33 +30,37 @@ public class DrawNewPDG extends JPanel {
 		  
     	  GraphNode src = edge.getSrc();
     	  GraphNode dst = edge.getDst();
+    	  System.out.print(src.id + " -->" + dst.id);
     	  g.drawRect(RECT_X, RECT_Y, RECT_WIDTH, RECT_HEIGHT);
     	  int muls = 25*( src.getId()%2 -1 ) *src.getId() ;
     	  int muld = 25*( dst.getId()%2 -1 ) *dst.getId();
     	  PDGDependence dependence = (PDGDependence)edge;
+    	  if (src.id != 0 && dst.id != 0) {
     	  if (src.getId() < dst.getId()) {
     		  
     		  if (dependence instanceof PDGControlDependence)
     			  drawArrowLine(g,RECT_X + muls,RECT_Y+(50*(src.getId()-1)) + RECT_HEIGHT,RECT_X+muld,RECT_Y+(50*(dst.getId()-1)),5,5,0);
     		  if (dependence instanceof PDGDataDependence)
     			  drawArrowLine(g,RECT_X + muls,RECT_Y+(50*(src.getId()-1)) + RECT_HEIGHT,RECT_X+muld,RECT_Y+(50*(dst.getId()-1)),5,5,1);
+    		
     	  }
     	  else {
     		  if (dependence instanceof PDGControlDependence)
         	  drawArrowLine(g,RECT_X+muls + 10,RECT_Y+(50*(src.getId()-1)) -20 + RECT_HEIGHT,RECT_X + muld+10,RECT_Y+(50*(dst.getId()-1))+20,5,5,0);
     		  if (dependence instanceof PDGDataDependence)
             	  drawArrowLine(g,RECT_X+muls + 10,RECT_Y+(50*(src.getId()-1)) -20 + RECT_HEIGHT,RECT_X + muld+10,RECT_Y+(50*(dst.getId()-1))+20,5,5,1);
-
+    	
   
+    	  }
     	  }
       
 		}
-      Set <GraphNode> nd  = pdg.getNodes();
+      Set <GraphNode> nd  = cfg.nodes;
       Iterator iter = nd.iterator();
 		while (iter.hasNext()) {
 			  GraphNode first = (GraphNode)iter.next();
 	    	  String nodes = (Integer.toString(first.getId()+1));
-	    	  int mul = 25*( first.getId()%2 -1 ) *first.getId();
+	    	  int mul = 25*( first.getId()%2 -1  ) *first.getId();
 	    	  g.drawRect(RECT_X + mul , RECT_Y, RECT_WIDTH, RECT_HEIGHT);
 	    	  g.drawString(nodes , (RECT_X + mul+RECT_WIDTH/2), (RECT_Y+RECT_HEIGHT/2));
 	    	  RECT_Y = RECT_Y +  50;
@@ -94,9 +99,10 @@ public class DrawNewPDG extends JPanel {
    }
 
    // create the GUI explicitly on the Swing event thread
-   public static void createAndShowGui(PDG pdg) {
+   public static void createAndShowGui(PDG pdg,CFG cfg) {
       DrawNewPDG mainPanel = new DrawNewPDG();
       mainPanel.pdg = pdg;
+      mainPanel.cfg = cfg;
       JFrame frame = new JFrame("PDG");
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       frame.getContentPane().add(mainPanel);
