@@ -530,12 +530,12 @@ public class PDGSliceUnion {
 		}
 		return false;
 	}
-
+//returnStatementIsControlDependentOnSliceNode() || sliceContainsReturnStatement() 
 	public boolean satisfiesRules() {
 		if(sliceEqualsMethodBody() || sliceContainsOnlyOneNodeCriterionAndDeclarationOfVariableCriterion() ||
 				declarationOfVariableCriterionIsDuplicated() ||
 				variableCriterionIsReturnedVariableInOriginalMethod() || (sliceNodes.size() <= nodeCriteria.size()) ||
-				allNodeCriteriaAreDuplicated() || returnStatementIsControlDependentOnSliceNode() || sliceContainsReturnStatement() ||
+				allNodeCriteriaAreDuplicated() ||
 				containsDuplicateNodeWithStateChangingMethodInvocation() ||
 				nonDuplicatedSliceNodeAntiDependsOnNonRemovableNode() ||
 				nonDuplicatedSliceNodeOutputDependsOnNonRemovableNode() ||
