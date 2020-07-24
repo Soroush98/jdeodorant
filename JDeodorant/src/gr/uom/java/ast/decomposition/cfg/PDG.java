@@ -81,7 +81,7 @@ public class PDG extends Graph {
 		handleThrowExceptionNodes();
 		if(monitor != null)
 			monitor.done();
-		DrawNewPDG.createAndShowGui(this,cfg);
+		//DrawNewPDG.createAndShowGui(this,cfg);
 	}
 
 	public PDGMethodEntryNode getEntryNode() {
@@ -209,6 +209,7 @@ public class PDG extends Graph {
 						else {
 							LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
 							nodeCriteria.add(pdgNode);
+							System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  nodeCriteria.toString());
 							definedPropertiesMap.put(compositeVariable, nodeCriteria);
 						}
 					}
@@ -222,10 +223,16 @@ public class PDG extends Graph {
 		Set<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
 		for(GraphNode node : nodes) {
 			PDGNode pdgNode = (PDGNode)node;
-			if(pdgNode.definesLocalVariable(localVariableCriterion) &&
-					!pdgNode.declaresLocalVariable(localVariableCriterion))
+//			if((pdgNode.definesLocalVariable(localVariableCriterion) &&
+//					!pdgNode.declaresLocalVariable(localVariableCriterion)) ))
+	//		nodeCriteria.add(pdgNode);
+			
+			String temp = pdgNode.toString();
+			temp = temp.replace("return","");
+			if (pdgNode.toString().contains("return") && temp.contains(localVariableCriterion.toString()))
 				nodeCriteria.add(pdgNode);
 		}
+		
 		return nodeCriteria;
 	}
 

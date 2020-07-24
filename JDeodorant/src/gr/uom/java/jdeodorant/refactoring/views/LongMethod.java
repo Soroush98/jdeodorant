@@ -803,9 +803,6 @@ public class LongMethod extends ViewPart {
 				PDG pdg = new PDG(cfg, classObject.getIFile(), classObject.getFieldsAccessedInsideMethod(methodObject), null);
 				for(VariableDeclaration declaration : pdg.getVariableDeclarationsInMethod()) {
 					PlainVariable variable = new PlainVariable(declaration);
-					if (variable.toString().contains("return")) {
-						continue;
-					}
 					PDGSliceUnionCollection sliceUnionCollection = new PDGSliceUnionCollection(pdg, variable);
 					double sumOfExtractedStatementsInGroup = 0.0;
 					double sumOfDuplicatedStatementsInGroup = 0.0;

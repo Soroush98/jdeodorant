@@ -33,7 +33,9 @@ public class PDGObjectSliceUnion {
 		this.subgraph = new PDGSlice(pdg, boundaryBlock);
 		this.sliceNodes = new TreeSet<PDGNode>();
 		for(PDGNode nodeCriterion : allNodeCriteria) {
+		
 			sliceNodes.addAll(subgraph.computeSlice(nodeCriterion));
+			
 		}
 		this.method = pdg.getMethod();
 		this.iFile = pdg.getIFile();

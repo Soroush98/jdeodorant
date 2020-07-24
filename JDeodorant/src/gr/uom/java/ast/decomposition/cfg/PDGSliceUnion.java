@@ -31,9 +31,11 @@ public class PDGSliceUnion {
 	public PDGSliceUnion(PDG pdg, BasicBlock boundaryBlock, Set<PDGNode> nodeCriteria, PlainVariable localVariableCriterion) {
 		this.pdg = pdg;
 		this.subgraph = new PDGSlice(pdg, boundaryBlock);
+		System.out.print("Var" + localVariableCriterion.toString());
 		this.sliceNodes = new TreeSet<PDGNode>();
 		for(PDGNode nodeCriterion : nodeCriteria) {
 			sliceNodes.addAll(subgraph.computeSlice(nodeCriterion));
+		System.out.println("node Criterion ->"+ nodeCriterion);
 		}
 		this.method = pdg.getMethod();
 		this.iFile = pdg.getIFile();
@@ -80,6 +82,7 @@ public class PDGSliceUnion {
 			}
 		}
 		sliceNodes.addAll(nodesToBeAddedToSliceDueToThrowStatementNodes);
+		
 		Set<PDGNode> remainingNodes = new TreeSet<PDGNode>();
 		remainingNodes.add(pdg.getEntryNode());
 		for(GraphNode node : pdg.nodes) {

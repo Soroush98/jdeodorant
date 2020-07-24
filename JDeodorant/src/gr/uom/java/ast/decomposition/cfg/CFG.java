@@ -52,7 +52,7 @@ public class CFG extends Graph {
 			process(new ArrayList<CFGNode>(), composite);
 			GraphNode.resetNodeNum();
 			this.basicBlockCFG = new BasicBlockCFG(this);
-			DrawNewCFG.createAndShowGui(this);
+			//DrawNewCFG.createAndShowGui(this);
 			//System.out.print(this.basicBlockCFG.getBasicBlocks().get(0).getAllNodes().get(0).toString());
 		}
 	}

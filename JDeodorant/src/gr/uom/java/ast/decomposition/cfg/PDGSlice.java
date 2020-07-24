@@ -73,6 +73,7 @@ public class PDGSlice extends Graph {
 				}
 				else
 					edges.add(dependence);
+				
 			}
 		}
 	}
@@ -458,11 +459,13 @@ public class PDGSlice extends Graph {
 		Set<PDGNode> defNodes = new LinkedHashSet<PDGNode>();
 		for(GraphEdge edge : node.incomingEdges) {
 			PDGDependence dependence = (PDGDependence)edge;
+			
 			if(edges.contains(dependence) && dependence instanceof PDGDataDependence) {
 				PDGDataDependence dataDependence = (PDGDataDependence)dependence;
 				if(dataDependence.getData().equals(localVariable)) {
 					PDGNode srcPDGNode = (PDGNode)dependence.src;
 					defNodes.add(srcPDGNode);
+					
 				}
 			}
 		}
