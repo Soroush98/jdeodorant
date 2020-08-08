@@ -220,7 +220,11 @@ public class PDG extends Graph {
 			for(AbstractVariable definedVariable : pdgNode.definedVariables) {
 				if(definedVariable instanceof CompositeVariable) {
 					CompositeVariable compositeVariable = (CompositeVariable)definedVariable;
-			if(pdgNode.toString().contains("return") && pdgNode.toString().replace("return", "").contains(reference.toString())) {
+					String temp = pdgNode.toString();
+					temp = temp.replace("return","");
+					temp = temp.replace("System.out.print","");
+					temp = temp.replace("System.err.print","");
+					if (pdgNode instanceof PDGExitNode && temp.contains(reference.toString())) {
 				if(definedPropertiesMap.containsKey(compositeVariable)) {
 					LinkedHashSet<PDGNode> nodeCriteria = definedPropertiesMap.get(compositeVariable);
 					nodeCriteria.add(pdgNode);
@@ -247,10 +251,11 @@ public class PDG extends Graph {
 			if((pdgNode.definesLocalVariable(localVariableCriterion) &&
 					!pdgNode.declaresLocalVariable(localVariableCriterion)) )
 			nodeCriteria.add(pdgNode);
-			
 			String temp = pdgNode.toString();
 			temp = temp.replace("return","");
-			if (pdgNode.toString().contains("return") && temp.contains(localVariableCriterion.toString()))
+			temp = temp.replace("System.out.print","");
+			temp = temp.replace("System.err.print","");
+			if (pdgNode instanceof PDGExitNode && temp.contains(localVariableCriterion.toString()))
 				nodeCriteria.add(pdgNode);
 		}
 		
