@@ -31,11 +31,9 @@ public class PDGSliceUnion {
 	public PDGSliceUnion(PDG pdg, BasicBlock boundaryBlock, Set<PDGNode> nodeCriteria, PlainVariable localVariableCriterion) {
 		this.pdg = pdg;
 		this.subgraph = new PDGSlice(pdg, boundaryBlock);
-		System.out.print("Var" + localVariableCriterion.toString());
 		this.sliceNodes = new TreeSet<PDGNode>();
 		for(PDGNode nodeCriterion : nodeCriteria) {
 			sliceNodes.addAll(subgraph.computeSlice(nodeCriterion));
-		System.out.println("node Criterion ->"+ nodeCriterion);
 		}
 		this.method = pdg.getMethod();
 		this.iFile = pdg.getIFile();
@@ -149,7 +147,9 @@ public class PDGSliceUnion {
 				}
 			}
 		}
+		
 		this.indispensableNodes = new TreeSet<PDGNode>();
+	
 		indispensableNodes.addAll(controlIndispensableNodes);
 		indispensableNodes.addAll(dataIndispensableNodes);
 		Set<PDGNode> throwStatementNodesToBeAddedToDuplicatedNodesDueToIndispensableNodes = new TreeSet<PDGNode>();
@@ -172,6 +172,21 @@ public class PDGSliceUnion {
 			PDGNode pdgNode = (PDGNode)node;
 			if(!remainingNodes.contains(pdgNode) && !indispensableNodes.contains(pdgNode))
 				removableNodes.add(pdgNode);
+		}
+		PDGNode temp = null;
+		int flag =0;
+		for(PDGNode sliceNode : sliceNodes) {
+			if(sliceNode instanceof PDGExitNode) {
+				flag = 1;
+				temp = sliceNode;
+				break;
+			}
+		}
+		if (flag == 1) {
+		   sliceNodes.remove(temp);
+			indispensableNodes.add(temp);
+		  // removableNodes.add(temp);
+			removableNodes.remove(temp);
 		}
 	}
 

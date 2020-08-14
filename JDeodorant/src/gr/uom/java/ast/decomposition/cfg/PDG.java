@@ -198,25 +198,25 @@ public class PDG extends Graph {
 		Map<CompositeVariable, LinkedHashSet<PDGNode>> definedPropertiesMap = new LinkedHashMap<CompositeVariable, LinkedHashSet<PDGNode>>();
 		for(GraphNode node : nodes) {
 			PDGNode pdgNode = (PDGNode)node;
-			for(AbstractVariable definedVariable : pdgNode.definedVariables) {
-				if(definedVariable instanceof CompositeVariable) {
-					CompositeVariable compositeVariable = (CompositeVariable)definedVariable;
-					if(compositeVariable.getVariableBindingKey().equals(reference.getVariableBindingKey())) {
-						if(definedPropertiesMap.containsKey(compositeVariable)) {
-							LinkedHashSet<PDGNode> nodeCriteria = definedPropertiesMap.get(compositeVariable);
-							nodeCriteria.add(pdgNode);
-						}
-						else {
-							LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
-							nodeCriteria.add(pdgNode);
-							System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  nodeCriteria.toString());
-							definedPropertiesMap.put(compositeVariable, nodeCriteria);
-						}
-					}
-					
-					}
-				
-			}
+//			for(AbstractVariable definedVariable : pdgNode.definedVariables) {
+//				if(definedVariable instanceof CompositeVariable) {
+//					CompositeVariable compositeVariable = (CompositeVariable)definedVariable;
+//					if(compositeVariable.getVariableBindingKey().equals(reference.getVariableBindingKey())) {
+//						if(definedPropertiesMap.containsKey(compositeVariable)) {
+//							LinkedHashSet<PDGNode> nodeCriteria = definedPropertiesMap.get(compositeVariable);
+//							nodeCriteria.add(pdgNode);
+//						}
+//						else {
+//							LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
+//							nodeCriteria.add(pdgNode);
+//							System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  nodeCriteria.toString());
+//							definedPropertiesMap.put(compositeVariable, nodeCriteria);
+//						}
+//					}
+//					
+//					}
+//				
+//			}
 			for(AbstractVariable definedVariable : pdgNode.definedVariables) {
 				if(definedVariable instanceof CompositeVariable) {
 					CompositeVariable compositeVariable = (CompositeVariable)definedVariable;
@@ -248,14 +248,14 @@ public class PDG extends Graph {
 		Set<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
 		for(GraphNode node : nodes) {
 			PDGNode pdgNode = (PDGNode)node;
-			if((pdgNode.definesLocalVariable(localVariableCriterion) &&
-					!pdgNode.declaresLocalVariable(localVariableCriterion)) )
-			nodeCriteria.add(pdgNode);
+//			if((pdgNode.definesLocalVariable(localVariableCriterion) &&
+//					!pdgNode.declaresLocalVariable(localVariableCriterion)) )
+//			nodeCriteria.add(pdgNode);
 			String temp = pdgNode.toString();
 			temp = temp.replace("return","");
 			temp = temp.replace("System.out.print","");
 			temp = temp.replace("System.err.print","");
-			if (pdgNode instanceof PDGExitNode && temp.contains(localVariableCriterion.toString()))
+			if (pdgNode instanceof PDGExitNode && pdgNode.usesLocalVariable(localVariableCriterion))
 				nodeCriteria.add(pdgNode);
 		}
 		
