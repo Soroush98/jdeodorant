@@ -12,6 +12,15 @@ public class PDGSliceUnionCollection {
 	private Map<BasicBlock, PDGSliceUnion> sliceUnionMap;
 	
 	public PDGSliceUnionCollection(PDG pdg, PlainVariable localVariableCriterion) {
+		int num = 0;
+		int total = 0;
+		for (GraphNode node : pdg.nodes) {
+			total++;
+			if (node instanceof PDGExitNode || node.toString().contains("write") || node.toString().contains("System.out.print")
+					||node.toString().contains("System.err.print")) {
+				num ++;
+			}
+		}
 		this.sliceUnionMap = new LinkedHashMap<BasicBlock, PDGSliceUnion>();
 		Set<PDGNode> nodeCriteria = pdg.getAssignmentNodesOfVariableCriterion(localVariableCriterion);
 		Map<PDGNode, Set<BasicBlock>> boundaryBlockMap = new LinkedHashMap<PDGNode, Set<BasicBlock>>();
@@ -26,11 +35,13 @@ public class PDGSliceUnionCollection {
 				basicBlockIntersection.retainAll(list.get(i));
 			}
 			for(BasicBlock basicBlock : basicBlockIntersection) {
+				
 				PDGSliceUnion sliceUnion = new PDGSliceUnion(pdg, basicBlock, nodeCriteria, localVariableCriterion);
-				if(sliceUnion.satisfiesRules())
+				if(sliceUnion.satisfiesRules() && num>=2)
 					sliceUnionMap.put(basicBlock, sliceUnion);
 			}
 		}
+		
 	}
 
 	public Collection<PDGSliceUnion> getSliceUnions() {

@@ -173,21 +173,21 @@ public class PDGSliceUnion {
 			if(!remainingNodes.contains(pdgNode) && !indispensableNodes.contains(pdgNode))
 				removableNodes.add(pdgNode);
 		}
-		PDGNode temp = null;
-		int flag =0;
-		for(PDGNode sliceNode : sliceNodes) {
-			if(sliceNode instanceof PDGExitNode) {
-				flag = 1;
-				temp = sliceNode;
-				break;
-			}
-		}
-		if (flag == 1) {
-		   sliceNodes.remove(temp);
-			indispensableNodes.add(temp);
-		  // removableNodes.add(temp);
-			removableNodes.remove(temp);
-		}
+//		PDGNode temp = null;
+//		int flag =0;
+//		for(PDGNode sliceNode : sliceNodes) {
+//			if(sliceNode instanceof PDGExitNode) {
+//				flag = 1;
+//				temp = sliceNode;
+//				break;
+//			}
+//		}
+//		if (flag == 1) {
+//		   sliceNodes.remove(temp);
+//			indispensableNodes.add(temp);
+//		  // removableNodes.add(temp);
+//			removableNodes.remove(temp);
+//		}
 	}
 
 	private boolean isNestedInside(PDGNode nestedNode, PDGNode parentNode) {

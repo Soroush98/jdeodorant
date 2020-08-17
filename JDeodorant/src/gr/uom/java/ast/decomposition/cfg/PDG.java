@@ -209,7 +209,6 @@ public class PDG extends Graph {
 //						else {
 //							LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
 //							nodeCriteria.add(pdgNode);
-//							System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  nodeCriteria.toString());
 //							definedPropertiesMap.put(compositeVariable, nodeCriteria);
 //						}
 //					}
@@ -217,28 +216,30 @@ public class PDG extends Graph {
 //					}
 //				
 //			}
-			for(AbstractVariable definedVariable : pdgNode.definedVariables) {
-				if(definedVariable instanceof CompositeVariable) {
-					CompositeVariable compositeVariable = (CompositeVariable)definedVariable;
-					String temp = pdgNode.toString();
-					temp = temp.replace("return","");
-					temp = temp.replace("System.out.print","");
-					temp = temp.replace("System.err.print","");
-					if (pdgNode instanceof PDGExitNode && temp.contains(reference.toString())) {
-				if(definedPropertiesMap.containsKey(compositeVariable)) {
-					LinkedHashSet<PDGNode> nodeCriteria = definedPropertiesMap.get(compositeVariable);
-					nodeCriteria.add(pdgNode);
-				}
-				else {
-					LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
-					nodeCriteria.add(pdgNode);
-					System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  nodeCriteria.toString());
-					definedPropertiesMap.put(compositeVariable, nodeCriteria);
-				}
+			for(AbstractVariable usedVariable : pdgNode.usedVariables) {
+				if(usedVariable instanceof CompositeVariable) {
+					CompositeVariable compositeVariable = (CompositeVariable)usedVariable;
+					if(compositeVariable.getVariableBindingKey().equals(reference.getVariableBindingKey())) {
+						
+						if (pdgNode instanceof PDGExitNode || pdgNode.toString().contains("System.out.print") || pdgNode.toString().contains("System.err.print")
+								|| pdgNode.toString().contains("write")) {
+						if(definedPropertiesMap.containsKey(compositeVariable)) {
+							LinkedHashSet<PDGNode> nodeCriteria = definedPropertiesMap.get(compositeVariable);
+							nodeCriteria.add(pdgNode);
+						}
+						else {
+							LinkedHashSet<PDGNode> nodeCriteria = new LinkedHashSet<PDGNode>();
+							nodeCriteria.add(pdgNode);
+							System.out.println(compositeVariable.getVariableBindingKey() + " ->" +  pdgNode.toString());
+							definedPropertiesMap.put(compositeVariable, nodeCriteria);
+						}
+						}
+					}
+					
+					}
 				
-				}
-				}
 			}
+
 			
 		}
 		return definedPropertiesMap;
@@ -251,12 +252,12 @@ public class PDG extends Graph {
 //			if((pdgNode.definesLocalVariable(localVariableCriterion) &&
 //					!pdgNode.declaresLocalVariable(localVariableCriterion)) )
 //			nodeCriteria.add(pdgNode);
-			String temp = pdgNode.toString();
-			temp = temp.replace("return","");
-			temp = temp.replace("System.out.print","");
-			temp = temp.replace("System.err.print","");
-			if (pdgNode instanceof PDGExitNode && pdgNode.usesLocalVariable(localVariableCriterion))
+//
+			if ((pdgNode instanceof PDGExitNode || pdgNode.toString().contains("System.out.print") || pdgNode.toString().contains("System.err.print")
+					|| pdgNode.toString().contains("write")) && pdgNode.usesLocalVariable(localVariableCriterion)) {
+				System.out.println(localVariableCriterion.getVariableBindingKey() + " ->" +  pdgNode.toString());
 				nodeCriteria.add(pdgNode);
+			}
 		}
 		
 		return nodeCriteria;

@@ -12,6 +12,16 @@ public class PDGObjectSliceUnionCollection {
 	private Map<BasicBlock, PDGObjectSliceUnion> objectSliceUnionMap;
 	
 	public PDGObjectSliceUnionCollection(PDG pdg, PlainVariable objectReference) {
+		int num = 0;
+		int total = 0;
+		for (GraphNode node : pdg.nodes) {
+			total++;
+			if (node instanceof PDGExitNode || node.toString().contains("write") || node.toString().contains("System.out.print")
+					||node.toString().contains("System.err.print")) {
+				num ++;
+			}
+		}
+		
 		this.objectSliceUnionMap = new LinkedHashMap<BasicBlock, PDGObjectSliceUnion>();
 		Map<CompositeVariable, LinkedHashSet<PDGNode>> definedAttributeNodeCriteriaMap = pdg.getDefinedAttributesOfReference(objectReference);
 		Map<CompositeVariable, Set<BasicBlock>> definedAttributeBasicBlockMap = new LinkedHashMap<CompositeVariable, Set<BasicBlock>>();
@@ -47,7 +57,7 @@ public class PDGObjectSliceUnionCollection {
 					allNodeCriteria.addAll(nodeCriteria);
 				}
 				PDGObjectSliceUnion objectSliceUnion = new PDGObjectSliceUnion(pdg, basicBlock, allNodeCriteria, objectReference);
-				if(objectSliceUnion.satisfiesRules())
+				if(objectSliceUnion.satisfiesRules() && num>=2)
 					objectSliceUnionMap.put(basicBlock, objectSliceUnion);
 			}
 		}
