@@ -81,6 +81,7 @@ public class PDG extends Graph {
 		handleThrowExceptionNodes();
 		if(monitor != null)
 			monitor.done();
+		
 		//DrawNewPDG.createAndShowGui(this,cfg);
 	}
 
