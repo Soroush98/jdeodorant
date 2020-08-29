@@ -37,7 +37,7 @@ public class PDGSliceUnionCollection {
 			for(BasicBlock basicBlock : basicBlockIntersection) {
 				
 				PDGSliceUnion sliceUnion = new PDGSliceUnion(pdg, basicBlock, nodeCriteria, localVariableCriterion);
-				if(sliceUnion.satisfiesRules() && num>=2)
+				if(sliceUnion.satisfiesRules() && num >=2)
 					sliceUnionMap.put(basicBlock, sliceUnion);
 			}
 		}

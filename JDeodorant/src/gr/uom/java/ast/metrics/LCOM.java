@@ -131,8 +131,9 @@ public class LCOM {
 		}
 		if(keySet.size() == notDefined)
 			return 0;
-		else
+		else {
 			return sum/(double)(keySet.size()-notDefined);
+		}
 	}
 	
 	public double getSystemAverageLCOM3() {

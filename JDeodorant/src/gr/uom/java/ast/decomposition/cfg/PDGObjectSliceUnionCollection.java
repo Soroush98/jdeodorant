@@ -57,7 +57,7 @@ public class PDGObjectSliceUnionCollection {
 					allNodeCriteria.addAll(nodeCriteria);
 				}
 				PDGObjectSliceUnion objectSliceUnion = new PDGObjectSliceUnion(pdg, basicBlock, allNodeCriteria, objectReference);
-				if(objectSliceUnion.satisfiesRules() && num>=2)
+				if(objectSliceUnion.satisfiesRules() && num >=2 )
 					objectSliceUnionMap.put(basicBlock, objectSliceUnion);
 			}
 		}

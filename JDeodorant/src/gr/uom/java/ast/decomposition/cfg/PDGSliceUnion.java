@@ -27,7 +27,8 @@ public class PDGSliceUnion {
 	private Set<AbstractVariable> passedParameters;
 	private Set<PDGNode> indispensableNodes;
 	private Set<PDGNode> removableNodes;
-	
+	static int b =0;
+	static int tot =0;
 	public PDGSliceUnion(PDG pdg, BasicBlock boundaryBlock, Set<PDGNode> nodeCriteria, PlainVariable localVariableCriterion) {
 		this.pdg = pdg;
 		this.subgraph = new PDGSlice(pdg, boundaryBlock);
@@ -545,19 +546,30 @@ public class PDGSliceUnion {
 		}
 		return false;
 	}
-//returnStatementIsControlDependentOnSliceNode() || sliceContainsReturnStatement() 
+	//returnStatementIsControlDependentOnSliceNode() || sliceContainsReturnStatement()
 	public boolean satisfiesRules() {
+		tot++;
+//		System.out.println("total ->" + Integer.toString(tot));
 		if(sliceEqualsMethodBody() || sliceContainsOnlyOneNodeCriterionAndDeclarationOfVariableCriterion() ||
 				declarationOfVariableCriterionIsDuplicated() ||
 				variableCriterionIsReturnedVariableInOriginalMethod() || (sliceNodes.size() <= nodeCriteria.size()) ||
 				allNodeCriteriaAreDuplicated() ||
-				containsDuplicateNodeWithStateChangingMethodInvocation() ||
+				containsDuplicateNodeWithStateChangingMethodInvocation() || 
 				nonDuplicatedSliceNodeAntiDependsOnNonRemovableNode() ||
 				nonDuplicatedSliceNodeOutputDependsOnNonRemovableNode() ||
 				duplicatedSliceNodeWithClassInstantiationHasDependenceOnRemovableNode() ||
 				!complyWithUserThresholds() || sliceContainsBranchStatementWithoutInnermostLoop() ||
-				variableCriterionIsStreamClosedInFinallyBlock() || sliceContainsVariableDeclarationClosedInFinallyBlock())
+				variableCriterionIsStreamClosedInFinallyBlock() || sliceContainsVariableDeclarationClosedInFinallyBlock()) {
+//			if (variableCriterionIsReturnedVariableInOriginalMethod()) {
+//				b ++;
+//				System.out.println("b ->" + Integer.toString(b));
+//			}
+//			b++;
+//			System.out.println("b ->" + Integer.toString(b));
 			return false;
+		
+		}
+			
 		return true;
 	}
 }
